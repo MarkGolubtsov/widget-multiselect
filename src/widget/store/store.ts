@@ -25,7 +25,14 @@ export const getDefaultState = (items: string[], selectedItems: string[]): Widge
         return new WidgetItem(item, !!selectedItems.find(selected => selected === item));
     });
 
-    const widgetSelectedItems = selectedItems.map(item => widgetItems.find(widgetItem => widgetItem.value === item) ?? new WidgetItem(item, true));
+    const widgetSelectedItems = selectedItems.map(item => {
+        const itemFromBaseArray = widgetItems.find(widgetItem => widgetItem.value === item);
+        if (itemFromBaseArray) {
+            return itemFromBaseArray;
+        } else {
+            throw new Error(`Selected item = '${item}' isn't exits in items!`);
+        }
+    });
 
     return {
         items: widgetItems,
