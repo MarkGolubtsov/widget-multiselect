@@ -26,7 +26,9 @@ function App() {
     }, [selectedItems]);
 
     const onChangeSelectedItems = (items: string[]) => {
-        setSelected(items);
+        setSelected(items.sort((first, second) => {
+            return first > second ? 1 : -1;
+        }));
     }
 
     return (
