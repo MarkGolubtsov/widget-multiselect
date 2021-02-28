@@ -9,23 +9,23 @@ type SelectedItemsProps = {
 
 export const SelectedItems = ({items, onDelete}: SelectedItemsProps) => {
     return (
-        <div className={'selected-items'}>
+        <>
             <Row>
                 <Col span={24}>
-                    Selected items:
+                    <strong>Selected items:</strong>
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
                     <Row gutter={[12, 12]}>
                         {items.map(item =>
-                            <Col key={item} span={3}>
+                            <Col key={item} span={4}>
                                 {item} <CloseOutlined onClick={() => onDelete(item)}/>
                             </Col>
                         )}
                     </Row>
                 </Col>
             </Row>
-        </div>
+        </>
     )
 }

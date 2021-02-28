@@ -5,9 +5,9 @@ import {changeSearchString} from 'widget/store/actions';
 
 
 export const SearchInput = () => {
-    const [state, dispatch] = useStore();
+    const [widgetStore, dispatch] = useStore();
 
-    const [string, setString] = useState(state.searchString);
+    const [string, setString] = useState(widgetStore.searchString);
 
     useEffect(() => {
         const delaySaveInStore = setTimeout(() => {
@@ -17,14 +17,14 @@ export const SearchInput = () => {
     }, [string, dispatch]);
 
     useEffect(() => {
-        setString(state.searchString);
-    }, [state.searchString])
+        setString(widgetStore.searchString);
+    }, [widgetStore.searchString])
 
     const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
         setString(e.currentTarget.value);
     }
 
     return (
-        <Input size="large" placeholder="large size" onChange={handleOnChange} value={string}/>
+        <Input size="middle" placeholder="Text" onChange={handleOnChange} value={string}/>
     )
 }

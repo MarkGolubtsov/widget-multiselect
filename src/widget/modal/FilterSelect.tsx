@@ -17,7 +17,7 @@ export const FilterSelect = () => {
     return (
         <Select value={state.filter} onChange={handleChange}>
             {filters.map(value => {
-                return <Option value={value}>{value}</Option>
+                return <Option key={value} value={value}>{value}</Option>
             })}
         </Select>
     )

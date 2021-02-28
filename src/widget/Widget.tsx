@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Col, Row} from 'antd';
 import {SelectModal} from 'widget/modal/SelectModal';
+import {SelectedItems} from 'widget/SelectedItems';
 import {MAX_COUNT_SELECTED_ITEMS} from 'widget/constants';
 
 import 'antd/dist/antd.css';
-import {SelectedItems} from 'widget/SelectedItems';
 
 export type WidgetProps = {
     items: string[];
@@ -46,8 +46,8 @@ export const Widget = ({items, selectedItems, onChangeSelectItems}: WidgetProps)
             </Row>
             <Row>
                 <Col span={24}>
-                    {showModal &&
-                    <SelectModal selectedItems={selectedItems} items={items} onSave={onSave} onCancel={onCancel}/>}
+                    {showModal && <SelectModal selectedItems={selectedItems} items={items} onSave={onSave}
+                                               onCancel={onCancel}/>}
                     <Button color={'blue'} onClick={toggleModal}>
                         Change
                     </Button>

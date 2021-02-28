@@ -11,16 +11,16 @@ export class WidgetItem {
         return this._value;
     }
 
+    get isSelected() {
+        return this._isSelected
+    }
+
     select() {
         this._isSelected = true;
     }
 
     unselect() {
         this._isSelected = false;
-    }
-
-    get isSelected() {
-        return this._isSelected
     }
 }
 

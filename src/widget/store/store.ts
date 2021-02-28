@@ -1,13 +1,20 @@
 import {WidgetItem} from 'widget/WidgetItem';
 import {Filter, filtersAction} from 'widget/store/filter';
-import {Actions, ActionType, ChangeSearchStringAction, UseFilterAction} from 'widget/store/actions';
+import {
+    Actions,
+    ActionType,
+    ChangeSearchStringAction,
+    SelectItemAction,
+    UnselectItemAction,
+    UseFilterAction
+} from 'widget/store/actions';
 
 export const DEFAULT_SEARCH_STRING = '';
 
 export type WidgetState = {
     items: WidgetItem[],
     selectedItems: WidgetItem[],
-    showItems: WidgetItem[],
+    filteredItems: WidgetItem[],
     filter: Filter,
     searchString: string
 };
@@ -18,12 +25,12 @@ export const getDefaultState = (items: string[], selectedItems: string[]): Widge
         return new WidgetItem(item, !!selectedItems.find(selected => selected === item));
     });
 
-    const widgetSelectedItems = selectedItems.map(item => new WidgetItem(item, true));
+    const widgetSelectedItems = selectedItems.map(item => widgetItems.find(widgetItem => widgetItem.value === item) ?? new WidgetItem(item, true));
 
     return {
         items: widgetItems,
         selectedItems: widgetSelectedItems,
-        showItems: filtersAction[Filter.NONE](widgetItems),
+        filteredItems: filtersAction[Filter.NONE](widgetItems),
         searchString: DEFAULT_SEARCH_STRING,
         filter: Filter.NONE
     }
@@ -35,18 +42,21 @@ export const widgetReducer = (state: WidgetState, action: Actions) => {
             return processChangeSearchString(state, action);
         case ActionType.USE_FILTER:
             return processChangeFilter(state, action);
+        case ActionType.SELECT_ITEM:
+            return processSelectItem(state, action);
+        case ActionType.UNSELECT_ITEM:
+            return processUnselectItem(state, action);
         default:
             return state;
     }
 };
-
 
 const processChangeSearchString = (state: WidgetState, action: ChangeSearchStringAction): WidgetState => {
     const items = filtersAction[state.filter](state.items, action.searchString);
     return {
         ...state,
         searchString: action.searchString,
-        showItems: items
+        filteredItems: items
     };
 }
 
@@ -55,6 +65,24 @@ const processChangeFilter = (state: WidgetState, action: UseFilterAction): Widge
     return {
         ...state,
         filter: action.filter,
-        showItems: items
+        filteredItems: items
     };
+}
+
+const processSelectItem = (state: WidgetState, action: SelectItemAction): WidgetState => {
+    action.item.select();
+    const selectedItems = state.selectedItems.concat(action.item);
+    return {
+        ...state,
+        selectedItems
+    }
+}
+
+const processUnselectItem = (state: WidgetState, action: UnselectItemAction): WidgetState => {
+    action.item.unselect();
+    const selectedItems = state.selectedItems.filter(selectedItem => selectedItem.value !== action.item.value);
+    return {
+        ...state,
+        selectedItems
+    }
 }

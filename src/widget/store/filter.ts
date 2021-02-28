@@ -33,13 +33,13 @@ const emptyFilter = (items: WidgetItem[], searchString = DEFAULT_SEARCH_STRING) 
     }
 };
 
-interface FiltersAction {
+interface FiltersActions {
     [key: string]: (items: WidgetItem[], searchString?: string) => WidgetItem[];
 }
 
-export const filtersAction: FiltersAction = {
+export const filtersAction: FiltersActions = {
     [Filter.NONE]: emptyFilter,
-    [Filter.MORE_10]: getFilterAction(1),
+    [Filter.MORE_10]: getFilterAction(10),
     [Filter.MORE_100]: getFilterAction(100),
     [Filter.MORE_200]: getFilterAction(200),
     [Filter.MORE_300]: getFilterAction(300),
